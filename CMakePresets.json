@@ -1,0 +1,88 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "conan-provider",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/cmake-conan/conan_provider.cmake"
+            }
+        },
+        {
+            "name": "ninja-multi-config",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build/",
+            "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "ninja",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo",
+                "CMAKE_DEFAULT_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "settings-stdlib-libc++",
+            "description": "Settings to compile and link with libc++",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_CXX_FLAGS": "-stdlib=libc++",
+                "CMAKE_EXE_LINKER_FLAGS": "-stdlib=libc++",
+                "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++",
+                "CONAN_HOST_PROFILE": "clang-libc++",
+                "CONAN_BUILD_PROFILE": "clang-libc++"
+            }
+        },
+        {
+            "name": "clang",
+            "displayName": "Clang",
+            "inherits": [
+                "ninja-multi-config",
+                "conan-provider"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "clang-libc++",
+            "displayName": "Clang-libc++",
+            "inherits": [
+                "ninja-multi-config",
+                "conan-provider",
+                "settings-stdlib-libc++"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "clang-release",
+            "displayName": "Release",
+            "configuration": "Release",
+            "configurePreset": "clang"
+        },
+        {
+            "name": "clang-libc++-release",
+            "displayName": "Release",
+            "configuration": "Release",
+            "configurePreset": "clang-libc++"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "test-clang-release",
+            "displayName": "Release Test",
+            "configuration": "Release",
+            "configurePreset": "clang"
+        },
+        {
+            "name": "test-clang-libc++-release",
+            "displayName": "Release Test",
+            "configuration": "Release",
+            "configurePreset": "clang-libc++"
+        }
+    ]
+}
