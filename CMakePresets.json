@@ -2,13 +2,6 @@
     "version": 8,
     "configurePresets": [
         {
-            "name": "conan-provider",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/cmake-conan/conan_provider.cmake"
-            }
-        },
-        {
             "name": "ninja-multi-config",
             "hidden": true,
             "generator": "Ninja Multi-Config",
@@ -28,17 +21,14 @@
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_CXX_FLAGS": "-stdlib=libc++",
                 "CMAKE_EXE_LINKER_FLAGS": "-stdlib=libc++",
-                "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++",
-                "CONAN_HOST_PROFILE": "clang-libc++",
-                "CONAN_BUILD_PROFILE": "clang-libc++"
+                "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++"
             }
         },
         {
             "name": "clang",
             "displayName": "Clang",
             "inherits": [
-                "ninja-multi-config",
-                "conan-provider"
+                "ninja-multi-config"
             ],
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
@@ -49,7 +39,6 @@
             "displayName": "Clang-libc++",
             "inherits": [
                 "ninja-multi-config",
-                "conan-provider",
                 "settings-stdlib-libc++"
             ],
             "cacheVariables": {
